@@ -88,4 +88,4 @@ class ApiClient {
 
 }
 
-export default ApiClient;
+module.exports = ApiClient;
