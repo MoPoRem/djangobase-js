@@ -8,7 +8,7 @@ declare class ApiClient {
     };
     _fetch(url: string, options?: {}): Promise<any>;
     from(modelName: string): ApiClient;
-    call(name: string, data: object): Promise<any>;
+    call(name: string, data?: object): Promise<any>;
     all(): Promise<any>;
     filter(params: object): Promise<any>;
     create(data: object): Promise<any>;
