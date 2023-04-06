@@ -28,6 +28,14 @@ class ApiClient {
     }
     return this
   }
+  
+  call(name, data) {
+	  return this._fetch(`${this.baseURL}/functions/${name}/`, 
+		{ 
+			method: "POST", 
+			body: JSON.stringify({params: data})
+		})
+  }
 
   all() {
     return this._fetch(this.resourceURL)
