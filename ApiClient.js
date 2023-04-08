@@ -6,9 +6,11 @@ class ApiClient {
     this.headers = {
       Authorization: `Token ${token}`,
     }
+    this.pk = null
   }
 
-  _fetch(url, options = {}) {
+  _fetch(url, options = {}, pk=undefined) {
+    url = this._constructUrlFromPk(url, pk)
     return fetch(url, {
       ...options,
       headers: {
@@ -17,6 +19,13 @@ class ApiClient {
         'Content-Type': 'application/json',
       },
     }).then(response => response.json())
+  }
+
+  _constructUrlFromPk(url, pk) {
+    if (pk) {
+      return `${url}${pk}`
+    }
+    return url
   }
   
   from (modelName){
@@ -56,34 +65,32 @@ class ApiClient {
   }
 
   get(pk) {
-    const url = `${this.resourceURL}${pk}/`
-    return this._fetch(url)
+    return this._fetch(this.resourceURL, {}, pk)
   }
 
-  update(pk, data) {
-    const url = `${this.resourceURL}${pk}/`
-    return this._fetch(url, {
+  update(data, pk) {
+    return this._fetch(this.resourceURL, {
       method: 'PUT',
       headers: this.headers,
       body: JSON.stringify(data),
-    })
+    }, pk)
   }
 
-  patch(pk, data) {
+  patch(data, pk) {
     const url = `${this.resourceURL}${pk}/`
-    return this._fetch(url, {
+    return this._fetch(this.resourceURL, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify(data),
-    })
+    }, pk)
   }
 
   delete(pk) {
     const url = `${this.resourceURL}${pk}/`
-    return this._fetch(url, {
+    return this._fetch(this.resourceURL, {
       method: 'DELETE',
       headers: this.headers,
-    })
+    }, pk)
   }
 
 }
