@@ -23,7 +23,7 @@ class ApiClient {
 
   _constructUrlFromPk(url, pk) {
     if (pk) {
-      return `${url}${pk}`
+      return `${url}${pk}/`
     }
     return url
   }
