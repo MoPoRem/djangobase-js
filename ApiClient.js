@@ -33,7 +33,7 @@ class ApiClient {
       const[folder, model] = modelName.split('.')
       this.resourceURL = `${this.baseURL}/${folder}/${model}/`
     }else {
-      this.resourceURL = `${this.baseURL}/models/${model}/`
+      this.resourceURL = `${this.baseURL}/models/${modelName}/`
     }
     return this
   }
