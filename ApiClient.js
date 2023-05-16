@@ -3,8 +3,12 @@ class ApiClient {
     constructor(baseURL, token) {
     this.baseURL = baseURL
     this.resourceURL = null
-    this.headers = {
-      Authorization: `Token ${token}`,
+    if (token) {
+      this.headers = {
+        Authorization: `Token ${token}`,
+      }
+    } else {
+      this.headers = {}
     }
     this.pk = null
   }
