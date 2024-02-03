@@ -68,6 +68,25 @@ class ApiClient {
     return this._fetch(url);
   }
 
+  filterOne(params, returnUndefined) {
+    const url = new URL(this.resourceURL);
+    Object.entries(params).forEach(([key, val]) =>
+      url.searchParams.append(key, val)
+    );
+    try {
+      data = this._fetch(url);
+      if (data?.results?.length !== 0) {
+        return data?.results[0];
+      }
+    } catch (err) {
+      if (!returnUndefined) {
+        throw err;
+      }
+    } finally {
+      if (returnUndefined) return undefined;
+    }
+  }
+
   create(data) {
     return this._fetch(this.resourceURL, {
       method: "POST",
@@ -78,6 +97,14 @@ class ApiClient {
 
   get(pk) {
     return this._fetch(this.resourceURL, {}, pk);
+  }
+
+  getOrUndefined(pk) {
+    try {
+      return this._fetch(this.resourceURL, {}, pk);
+    } catch (err) {
+      return undefined;
+    }
   }
 
   update(data, pk) {
