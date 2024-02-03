@@ -21,7 +21,15 @@ class ApiClient {
         ...this.headers,
         "Content-Type": "application/json",
       },
-    }).then((response) => response.json());
+    }).then((response) => {
+      if (!response.ok) {
+        let err = new Error("Network Error code: " + response.status);
+        err.response = response;
+        err.status = response.status;
+        throw err;
+      }
+      return response.json();
+    });
   }
 
   _constructUrlFromPk(url, pk) {
