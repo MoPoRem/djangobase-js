@@ -23,9 +23,10 @@ class ApiClient {
       },
     }).then((response) => {
       if (!response.ok) {
-        let err = new Error("Network Error code: " + response.status);
+        let err = new ("Network Error code: " + response.status)();
         err.response = response;
         err.status = response.status;
+        err.name = "Network";
         throw err;
       }
       return response.json();
@@ -74,12 +75,12 @@ class ApiClient {
       url.searchParams.append(key, val)
     );
     try {
-      data = this._fetch(url);
+      const data = this._fetch(url);
       if (data?.results?.length !== 0) {
         return data?.results[0];
       }
     } catch (err) {
-      if (!returnUndefined) {
+      if (!returnUndefined || err.name !== "Network") {
         throw err;
       }
     } finally {
@@ -103,6 +104,9 @@ class ApiClient {
     try {
       return this._fetch(this.resourceURL, {}, pk);
     } catch (err) {
+      if (err.name !== "Network") {
+        throw err;
+      }
       return undefined;
     }
   }
