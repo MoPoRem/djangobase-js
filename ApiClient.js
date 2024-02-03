@@ -69,13 +69,13 @@ class ApiClient {
     return this._fetch(url);
   }
 
-  filterOne(params, returnUndefined) {
+  async filterOne(params, returnUndefined) {
     const url = new URL(this.resourceURL);
     Object.entries(params).forEach(([key, val]) =>
       url.searchParams.append(key, val)
     );
     try {
-      const data = this._fetch(url);
+      const data = await this._fetch(url);
       if (data?.results?.length !== 0) {
         return data?.results[0];
       }
