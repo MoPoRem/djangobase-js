@@ -1,6 +1,6 @@
 {
   "name": "djangobase-js",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A js client to interact with djangobase",
   "main": "ApiClient.js",
   "scripts": {

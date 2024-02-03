@@ -1,6 +1,6 @@
 export default ApiClient;
 declare class ApiClient {
-  constructor(baseURL: String, token: String);
+  constructor(baseURL: String, token: String, appendSlash: boolean = true);
   baseURL: string;
   resourceURL: string;
   headers: {

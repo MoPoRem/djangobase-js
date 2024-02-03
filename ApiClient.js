@@ -1,7 +1,8 @@
 class ApiClient {
-  constructor(baseURL, token) {
+  constructor(baseURL, token, appendSlash = true) {
     this.baseURL = baseURL;
     this.resourceURL = null;
+    this.appendSlash = appendSlash;
     if (token) {
       this.headers = {
         Authorization: `Token ${token}`,
@@ -23,7 +24,7 @@ class ApiClient {
       },
     }).then((response) => {
       if (!response.ok) {
-        let err = new ("Network Error code: " + response.status)();
+        let err = new Error("Network Error code: " + response.status);
         err.response = response;
         err.status = response.status;
         err.name = "Network";
@@ -35,7 +36,9 @@ class ApiClient {
 
   _constructUrlFromPk(url, pk) {
     if (pk) {
-      return `${url}${pk}/`;
+      var url = `${url}${pk}`;
+      url = this.appendSlash ? url + "/" : url;
+      return url;
     }
     return url;
   }
@@ -83,8 +86,6 @@ class ApiClient {
       if (!returnUndefined || err.name !== "Network") {
         throw err;
       }
-    } finally {
-      if (returnUndefined) return undefined;
     }
   }
 
@@ -107,7 +108,6 @@ class ApiClient {
       if (err.name !== "Network") {
         throw err;
       }
-      return undefined;
     }
   }
 
