@@ -29,6 +29,8 @@ class ApiClient {
         err.status = response.status;
         err.name = "Network";
         throw err;
+      } else if (response.status === 204) {
+        return Promise.resolve();
       }
       return response.json();
     });
